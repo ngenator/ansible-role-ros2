@@ -1,0 +1,50 @@
+---
+- name: setup UTF-8 locale
+  locale_gen:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - en_US
+  - en_US.UTF-8
+
+- name: install dependencies
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - curl
+  - gnupg2
+  - lsb-release
+
+- name: add the ROS signing key
+  apt_key:
+    url: "{{ ros_key_url }}"
+    state: present
+
+- name: add the ROS repository
+  apt_repository:
+    repo: "deb [arch=amd64,arm64] {{ ros_rspository_url }} {{ ansible_distribution_release }} main"
+    state: present
+    filename: ros2-latest
+
+- name: install ROS
+  apt:
+    name: "ros-{{ ros_distribution }}-{{ ros_configuration }}"
+    update_cache: yes
+    state: present
+
+- name: install ROS packages
+  apt:
+    name: "ros-{{ ros_distribution }}-{{ item }}"
+    state: present
+    allow_unauthenticated: yes
+  with_items: "{{ packages }}"
+  when: (packages is defined) and (packages)
+
+- name: install additional packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - python3-argcomplete
+  - python3-colcon-common-extensions
