@@ -23,7 +23,7 @@
 
 - name: add the ROS repository
   apt_repository:
-    repo: "deb [arch=amd64,arm64] {{ ros_rspository_url }} {{ ansible_distribution_release }} main"
+    repo: "deb [arch=amd64,arm64] {{ ros_repository_url }} {{ ansible_distribution_release }} main"
     state: present
     filename: ros2-latest
 
