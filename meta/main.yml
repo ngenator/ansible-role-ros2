@@ -1,5 +1,6 @@
 galaxy_info:
   role_name: ros2
+  description: Robot Operating System 2 (ROS2) install for Ubuntu
   author: Daniel Ng
   license: MIT
 
@@ -9,10 +10,9 @@ galaxy_info:
   - name: Ubuntu
     versions:
     - bionic
-    
+
   galaxy_tags:
   - ros2
   - ros
 
 dependencies: []
-  
